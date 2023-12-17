@@ -1,0 +1,7 @@
+__pycache__/
+/.env
+/MANIFEST
+/_meta.py
+/build/
+/dist/
+/gitprops/__init__.py
