@@ -7,7 +7,7 @@ from gitprops.repo import GitError, GitRepo
 from conftest import get_test_repo
 
 Case = namedtuple('Case', [
-    'repo', 'tag', 'count', 'node', 'commit', 'dirty', 'date'
+    'repo', 'tag', 'count', 'node', 'commit', 'dirty', 'date', 'marks',
 ])
 cases = [
     Case(
@@ -18,9 +18,10 @@ cases = [
         commit = None,
         dirty = False,
         date = None,
+        marks = (),
     )
 ]
-case_params = [ pytest.param(c, id=c.repo) for c in cases ]
+case_params = [ pytest.param(c, id=c.repo, marks=c.marks) for c in cases ]
 
 @pytest.fixture(scope="module", params=case_params)
 def repo_case(tmpdir, request):
