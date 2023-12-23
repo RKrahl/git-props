@@ -15,5 +15,5 @@
   node: null
   commit: null
   dirty: true
-  date: null
+  date: today
   marks: null

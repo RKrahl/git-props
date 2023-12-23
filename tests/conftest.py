@@ -1,4 +1,5 @@
 from collections import namedtuple
+import datetime
 from pathlib import Path
 import shutil
 import tarfile
@@ -26,6 +27,8 @@ def get_test_cases():
     with open(casefile, "rt") as f:
         for c in yaml.load(f, Loader=yaml.CLoader):
             case = Case(**c)
+            if case.date == 'today':
+                case = case._replace(date=datetime.date.today())
             marks = case.marks if case.marks else ()
             id = case.repo + "-dirty" if case.dirty else case.repo
             yield pytest.param(case, id=id, marks=marks)
