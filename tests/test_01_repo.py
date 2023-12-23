@@ -1,33 +1,10 @@
 """Test module gitprops.repo
 """
 
-from collections import namedtuple
 import pytest
 from gitprops.repo import GitError, GitRepo
 from conftest import get_test_repo
 
-Case = namedtuple('Case', [
-    'repo', 'tag', 'count', 'node', 'commit', 'dirty', 'date', 'marks',
-])
-cases = [
-    Case(
-        repo = 'empty',
-        tag = None,
-        count = 0,
-        node = None,
-        commit = None,
-        dirty = False,
-        date = None,
-        marks = (),
-    )
-]
-case_params = [ pytest.param(c, id=c.repo, marks=c.marks) for c in cases ]
-
-@pytest.fixture(scope="module", params=case_params)
-def repo_case(tmpdir, request):
-    case = request.param
-    r = get_test_repo(tmpdir, case.repo)
-    return case._replace(repo=GitRepo(r))
 
 def test_repo_version_meta(repo_case):
     repo = repo_case.repo

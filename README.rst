@@ -38,6 +38,10 @@ Optional library packages:
 
   Only needed to run the test suite.
 
++ `PyYAML`_ >= 5.4
+
+  Only needed to run the test suite.
+
 
 Copyright and License
 ---------------------
@@ -59,4 +63,5 @@ permissions and limitations under the License.
 .. _setuptools_scm: https://github.com/pypa/setuptools_scm/
 .. _pytest: https://pytest.org/
 .. _distutils-pytest: https://github.com/RKrahl/distutils-pytest
+.. _PyYAML: https://github.com/yaml/pyyaml/
 .. _Apache License: https://www.apache.org/licenses/LICENSE-2.0

@@ -1,0 +1,11 @@
+%YAML 1.1
+# List of test cases.
+---
+- commit: null
+  count: 0
+  date: null
+  dirty: false
+  marks: null
+  node: null
+  repo: empty
+  tag: null

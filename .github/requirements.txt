@@ -1,3 +1,4 @@
+PyYAML >=5.4
 distutils-pytest
 pytest >=3.0.0
 setuptools_scm
