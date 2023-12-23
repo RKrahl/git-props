@@ -27,17 +27,26 @@ def get_test_cases():
         for c in yaml.load(f, Loader=yaml.CLoader):
             case = Case(**c)
             marks = case.marks if case.marks else ()
-            yield pytest.param(case, id=case.repo, marks=marks)
+            id = case.repo + "-dirty" if case.dirty else case.repo
+            yield pytest.param(case, id=id, marks=marks)
 
-def get_test_repo(base, repo):
+def get_test_repo(base, repo, dirty=False):
     repo_archive = get_testdata("%s.tar.bz2" % repo)
+    repo_name = repo + "-dirty" if dirty else repo
+    repo_dir = base / repo_name
+    tmp_dir = Path(tempfile.mkdtemp(dir=base))
     with tarfile.open(repo_archive, "r") as tarf:
         try:
             tarf.extraction_filter = tarfile.fully_trusted_filter
         except AttributeError:
             pass
-        tarf.extractall(path=base)
-    return base / repo
+        tarf.extractall(path=tmp_dir)
+    (tmp_dir / repo).rename(repo_dir)
+    tmp_dir.rmdir()
+    if dirty:
+        (repo_dir / "_taint").touch(exist_ok=False)
+        GitRepo(repo_dir)._exec("git add _taint")
+    return repo_dir
 
 
 @pytest.fixture(scope="module")
@@ -50,7 +59,7 @@ def tmpdir():
 @pytest.fixture(scope="module", params=get_test_cases())
 def repo_case(tmpdir, request):
     case = request.param
-    r = get_test_repo(tmpdir, case.repo)
+    r = get_test_repo(tmpdir, case.repo, case.dirty)
     return case._replace(repo=GitRepo(r))
 
 
