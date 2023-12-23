@@ -10,6 +10,7 @@ from gitprops.repo import GitRepo
 
 testdir = Path(__file__).resolve().parent
 testdatadir = testdir / "data"
+_cleanup = True
 
 Case = namedtuple('Case', [
     'repo', 'tag', 'count', 'node', 'commit', 'dirty', 'date', 'marks',
@@ -43,7 +44,8 @@ def get_test_repo(base, repo):
 def tmpdir():
     path = Path(tempfile.mkdtemp(prefix="git-props-test-"))
     yield path
-    shutil.rmtree(path)
+    if _cleanup:
+        shutil.rmtree(path)
 
 @pytest.fixture(scope="module", params=get_test_cases())
 def repo_case(tmpdir, request):
@@ -51,6 +53,14 @@ def repo_case(tmpdir, request):
     r = get_test_repo(tmpdir, case.repo)
     return case._replace(repo=GitRepo(r))
 
+
+def pytest_addoption(parser):
+    parser.addoption("--no-cleanup", action="store_true", default=False,
+                     help="do not clean up temporary data after the test.")
+
+def pytest_configure(config):
+    global _cleanup
+    _cleanup = not config.getoption("--no-cleanup")
 
 def pytest_report_header(config):
     """Add information on the package version used in the tests.
