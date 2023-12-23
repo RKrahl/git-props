@@ -9,8 +9,13 @@ testdir = Path(__file__).resolve().parent
 testdatadir = testdir / "data"
 
 
+def get_testdata(fname):
+    fname = testdatadir / fname
+    assert fname.is_file()
+    return fname
+
 def get_test_repo(base, repo):
-    repo_archive = testdatadir / ("%s.tar.bz2" % repo)
+    repo_archive = get_testdata("%s.tar.bz2" % repo)
     with tarfile.open(repo_archive, "r") as tarf:
         try:
             tarf.extraction_filter = tarfile.fully_trusted_filter
