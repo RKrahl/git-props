@@ -13,9 +13,20 @@ testdir = Path(__file__).resolve().parent
 testdatadir = testdir / "data"
 _cleanup = True
 
-Case = namedtuple('Case', [
+CaseTuple = namedtuple('CaseTuple', [
     'repo', 'tag', 'count', 'node', 'commit', 'dirty', 'date', 'marks',
 ])
+class Case(CaseTuple):
+    def __new__(cls, **kwargs):
+        if kwargs.get('date') == 'today':
+            kwargs['date'] = datetime.date.today()
+        return super().__new__(cls, **kwargs)
+    @property
+    def name(self):
+        parts = [self.repo]
+        if self.dirty:
+            parts.append('dirty')
+        return '-'.join(parts)
 
 def get_testdata(fname):
     fname = testdatadir / fname
@@ -27,16 +38,13 @@ def get_test_cases():
     with open(casefile, "rt") as f:
         for c in yaml.load(f, Loader=yaml.CLoader):
             case = Case(**c)
-            if case.date == 'today':
-                case = case._replace(date=datetime.date.today())
             marks = case.marks if case.marks else ()
-            id = case.repo + "-dirty" if case.dirty else case.repo
+            id = case.name
             yield pytest.param(case, id=id, marks=marks)
 
-def get_test_repo(base, repo, dirty=False):
-    repo_archive = get_testdata("%s.tar.bz2" % repo)
-    repo_name = repo + "-dirty" if dirty else repo
-    repo_dir = base / repo_name
+def get_test_repo(base, case):
+    repo_archive = get_testdata("%s.tar.bz2" % case.repo)
+    repo_dir = base / case.name
     tmp_dir = Path(tempfile.mkdtemp(dir=base))
     with tarfile.open(repo_archive, "r") as tarf:
         try:
@@ -44,9 +52,9 @@ def get_test_repo(base, repo, dirty=False):
         except AttributeError:
             pass
         tarf.extractall(path=tmp_dir)
-    (tmp_dir / repo).rename(repo_dir)
+    (tmp_dir / case.repo).rename(repo_dir)
     tmp_dir.rmdir()
-    if dirty:
+    if case.dirty:
         (repo_dir / "_taint").touch(exist_ok=False)
         GitRepo(repo_dir)._exec("git add _taint")
     return repo_dir
@@ -62,7 +70,7 @@ def tmpdir():
 @pytest.fixture(scope="module", params=get_test_cases())
 def repo_case(tmpdir, request):
     case = request.param
-    r = get_test_repo(tmpdir, case.repo, case.dirty)
+    r = get_test_repo(tmpdir, case)
     return case._replace(repo=GitRepo(r))
 
 
