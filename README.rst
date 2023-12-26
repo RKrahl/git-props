@@ -16,6 +16,8 @@ Required library packages:
 
 + `setuptools`_
 
++ `packaging`_
+
 External Programs:
 
 + `git`_
@@ -59,6 +61,7 @@ permissions and limitations under the License.
 
 
 .. _setuptools: https://github.com/pypa/setuptools/
+.. _packaging: https://github.com/pypa/packaging/
 .. _git: https://git-scm.com/
 .. _setuptools_scm: https://github.com/pypa/setuptools_scm/
 .. _pytest: https://pytest.org/

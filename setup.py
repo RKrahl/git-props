@@ -132,6 +132,6 @@ setup(
     ),
     packages = ["gitprops"],
     python_requires = ">=3.6",
-    install_requires = [],
+    install_requires = ["packaging"],
     cmdclass = dict(cmdclass, build_py=build_py, sdist=sdist, meta=meta),
 )
