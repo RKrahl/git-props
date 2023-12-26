@@ -6,6 +6,7 @@ import datetime
 import os
 from pathlib import Path
 import subprocess
+from gitprops.version import Version
 
 
 class GitError(Exception):
@@ -61,7 +62,29 @@ class GitRepo:
         return self._exec("git rev-parse --verify --quiet HEAD")
 
     def get_last_version(self):
-        return self.get_version_meta().tag
+        candidate_tags = set()
+        shadowed_tags = set()
+        try:
+            tags = self._exec("git tag --merged").split('\n')
+        except GitError:
+            return None
+        for t in tags:
+            try:
+                candidate_tags.add(Version(t))
+            except ValueError:
+                continue
+            for t1 in self._exec("git tag --merged %s" % t).split('\n'):
+                if t1 == t:
+                    continue
+                try:
+                    shadowed_tags.add(Version(t1))
+                except ValueError:
+                    continue
+        versions = candidate_tags - shadowed_tags
+        if versions:
+            return sorted(versions)[-1]
+        else:
+            return None
 
     def is_dirty(self):
         return bool(self._exec("git status --porcelain --untracked-files=no"))
