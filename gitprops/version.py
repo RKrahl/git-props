@@ -12,8 +12,9 @@ class Version(packaging.version.Version):
 
     + add a __hash__() method,
     + add comparison with strings,
-    + if the original version string starts with 'v', that prifix is
-      retained in the string representation.
+    + try harder to reproduce the original version string in the
+      string representation: if the original version string starts
+      with 'v', that prefix is retained.
 
     >>> version = Version('4.11.1')
     >>> version == '4.11.1'
@@ -35,7 +36,7 @@ class Version(packaging.version.Version):
         self._prefix = "v" if version.startswith("v") else ""
 
     def __hash__(self):
-        # strip trailing zero components from release
+        # strip trailing zero segments from release
         release = tuple(
             reversed(list(
                 itertools.dropwhile(
