@@ -13,7 +13,7 @@ class GitError(Exception):
     pass
 
 
-VersionMeta = namedtuple('VersionMeta', ['tag', 'count', 'node'])
+VersionMeta = namedtuple('VersionMeta', ['version', 'count', 'node', 'dirty'])
 
 
 class GitRepo:
@@ -39,24 +39,6 @@ class GitRepo:
         # command not be available
         self.git_version = self._exec("git version")
         self.root = Path(self._exec("git rev-parse --show-toplevel"))
-        self._version_meta = None
-
-    def get_version_meta(self):
-        if not self._version_meta:
-            try:
-                descr = self._exec("git describe --tags --long --match *.*")
-                tag, count, node = descr.split('-')
-                self._version_meta = VersionMeta(tag, int(count), node)
-            except GitError:
-                try:
-                    revs = self._exec("git rev-list HEAD")
-                    count = revs.count('\n') + 1
-                    commit = self.get_last_commit()
-                    node = 'g' + commit[:7]
-                    self._version_meta = VersionMeta(None, count, node)
-                except GitError:
-                    self._version_meta = VersionMeta(None, 0, None)
-        return self._version_meta
 
     def get_last_commit(self):
         return self._exec("git rev-parse --verify --quiet HEAD")
@@ -86,8 +68,29 @@ class GitRepo:
         else:
             return None
 
+    def get_rev_count(self, base=None):
+        if base:
+            cmd = "git rev-list --count %s..HEAD" % base
+        else:
+            cmd = "git rev-list --count HEAD"
+        return int(self._exec(cmd))
+
     def is_dirty(self):
         return bool(self._exec("git status --porcelain --untracked-files=no"))
+
+    def get_version_meta(self):
+        version = self.get_last_version()
+        try:
+            if version:
+                count = self.get_rev_count(base=str(version))
+            else:
+                count = self.get_rev_count()
+            commit = self.get_last_commit()
+            node = 'g' + commit[:7]
+        except GitError:
+            count = 0
+            node = None
+        return VersionMeta(version, count, node, self.is_dirty())
 
     def get_date(self):
         if self.is_dirty():

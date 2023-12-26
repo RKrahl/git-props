@@ -15,7 +15,7 @@ _cleanup = True
 
 CaseTuple = namedtuple('CaseTuple', [
     'repo', 'branch', 'dirty',
-    'tag', 'count', 'node', 'commit', 'date', 'marks',
+    'version', 'count', 'node', 'commit', 'date', 'marks',
 ])
 class Case(CaseTuple):
     def __new__(cls, **kwargs):
