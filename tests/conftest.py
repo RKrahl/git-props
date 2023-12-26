@@ -14,7 +14,8 @@ testdatadir = testdir / "data"
 _cleanup = True
 
 CaseTuple = namedtuple('CaseTuple', [
-    'repo', 'tag', 'count', 'node', 'commit', 'dirty', 'date', 'marks',
+    'repo', 'branch', 'dirty',
+    'tag', 'count', 'node', 'commit', 'date', 'marks',
 ])
 class Case(CaseTuple):
     def __new__(cls, **kwargs):
@@ -24,6 +25,8 @@ class Case(CaseTuple):
     @property
     def name(self):
         parts = [self.repo]
+        if self.branch:
+            parts.append(self.branch)
         if self.dirty:
             parts.append('dirty')
         return '-'.join(parts)
@@ -54,9 +57,12 @@ def get_test_repo(base, case):
         tarf.extractall(path=tmp_dir)
     (tmp_dir / case.repo).rename(repo_dir)
     tmp_dir.rmdir()
+    repo = GitRepo(repo_dir)
+    if case.branch:
+        repo._exec("git checkout %s" % case.branch)
     if case.dirty:
         (repo_dir / "_taint").touch(exist_ok=False)
-        GitRepo(repo_dir)._exec("git add _taint")
+        repo._exec("git add _taint")
     return repo_dir
 
 
