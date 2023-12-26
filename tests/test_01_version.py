@@ -31,3 +31,16 @@ def test_version(vstr, checks):
     version = Version(vstr)
     for check, res in checks:
         assert check(version) == res
+
+def test_version_set():
+    s = set()
+    s.add(Version("1.0"))
+    s.add(Version("1.0.1"))
+    assert len(s) == 2
+    s.add(Version("1.0.0"))
+    assert len(s) == 2
+    assert Version("1") in s
+    assert Version("1.0") in s
+    assert Version("1.0.0") in s
+    assert Version("1.0.1") in s
+    assert Version("1.0.0.0") in s
