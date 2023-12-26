@@ -11,7 +11,9 @@ class Version(packaging.version.Version):
     This class extends :class:`packaging.version.Version`:
 
     + add a __hash__() method,
-    + add comparison with strings.
+    + add comparison with strings,
+    + if the original version string starts with 'v', that prifix is
+      retained in the string representation.
 
     >>> version = Version('4.11.1')
     >>> version == '4.11.1'
@@ -28,6 +30,10 @@ class Version(packaging.version.Version):
     >>> version == '5.0.0a1'
     True
     """
+    def __init__(self, version):
+        super().__init__(version)
+        self._prefix = "v" if version.startswith("v") else ""
+
     def __hash__(self):
         # strip trailing zero components from release
         release = tuple(
@@ -69,3 +75,6 @@ class Version(packaging.version.Version):
         if isinstance(other, str):
             other = type(self)(other)
         return super().__ne__(other)
+
+    def __str__(self):
+        return self._prefix + super().__str__()
