@@ -3,6 +3,7 @@
 
 import pytest
 from gitprops.repo import GitError, GitRepo
+from gitprops.version import Version
 from conftest import get_test_repo
 
 
@@ -16,7 +17,10 @@ def test_repo_commit(repo_case):
 
 def test_repo_last_version(repo_case):
     repo = repo_case.repo
-    assert repo.get_last_version() == repo_case.version
+    if repo_case.version is None:
+        assert repo.get_last_version_tag() is None
+    else:
+        assert Version(repo.get_last_version_tag()) == repo_case.version
 
 def test_repo_dirty(repo_case):
     repo = repo_case.repo

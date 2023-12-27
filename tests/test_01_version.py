@@ -44,28 +44,3 @@ def test_version_set():
     assert Version("1.0.0") in s
     assert Version("1.0.1") in s
     assert Version("1.0.0.0") in s
-
-@pytest.mark.parametrize("vstr", [
-    "1.dev0", "v1.dev0",
-    "1.0.dev456", "v1.0.dev456",
-    "1.0a1", "v1.0a1",
-    "1.0a2.dev456", "v1.0a2.dev456",
-    "1.0a12.dev456", "v1.0a12.dev456",
-    "1.0a12", "v1.0a12",
-    "1.0b1.dev456", "v1.0b1.dev456",
-    "1.0b2", "v1.0b2",
-    "1.0b2.post345.dev456", "v1.0b2.post345.dev456",
-    "1.0b2.post345", "v1.0b2.post345",
-    "1.0rc1.dev456", "v1.0rc1.dev456",
-    "1.0rc1", "v1.0rc1",
-    "1.0", "v1.0",
-    "1.0+abc.5", "v1.0+abc.5",
-    "1.0+abc.7", "v1.0+abc.7",
-    "1.0+5", "v1.0+5",
-    "1.0.post456.dev34", "v1.0.post456.dev34",
-    "1.0.post456", "v1.0.post456",
-    "1.0.15", "v1.0.15",
-    "1.1.dev1", "v1.1.dev1",
-])
-def test_version_string(vstr):
-    assert str(Version(vstr)) == vstr

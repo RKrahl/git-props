@@ -40,7 +40,7 @@
 - repo: ver
   dirty: false
   branch: null
-  version: v1.0
+  version: '1.0'
   count: 0
   node: g736e50c
   commit: 736e50c3f52630327a3cebb0d4fb0ceb842cb8a3
@@ -49,7 +49,7 @@
 - repo: ver
   dirty: true
   branch: null
-  version: v1.0
+  version: '1.0'
   count: 0
   node: g736e50c
   commit: 736e50c3f52630327a3cebb0d4fb0ceb842cb8a3
@@ -58,7 +58,7 @@
 - repo: simple
   dirty: false
   branch: null
-  version: v1.0
+  version: '1.0'
   count: 2
   node: gdc20d45
   commit: dc20d45d07380530c853e9d68a4b4b404cef4b72
@@ -67,7 +67,7 @@
 - repo: simple
   dirty: true
   branch: null
-  version: v1.0
+  version: '1.0'
   count: 2
   node: gdc20d45
   commit: dc20d45d07380530c853e9d68a4b4b404cef4b72
@@ -76,7 +76,7 @@
 - repo: branch
   dirty: false
   branch: null
-  version: v1.0
+  version: '1.0'
   count: 4
   node: gff32a85
   commit: ff32a852c06892f543afc1f6b607b7da24bce6b3
@@ -85,7 +85,7 @@
 - repo: multitag1
   dirty: false
   branch: null
-  version: v2.0
+  version: '2.0'
   count: 2
   node: gff32a85
   commit: ff32a852c06892f543afc1f6b607b7da24bce6b3
@@ -94,7 +94,7 @@
 - repo: multitag2
   dirty: false
   branch: null
-  version: v2.0
+  version: '2.0'
   count: 3
   node: gff32a85
   commit: ff32a852c06892f543afc1f6b607b7da24bce6b3
@@ -103,7 +103,7 @@
 - repo: checkout
   dirty: false
   branch: v2dev
-  version: v1.0
+  version: '1.0'
   count: 1
   node: gc911781
   commit: c911781ce4266aa736c56fa8043183eab82d9c41
@@ -112,7 +112,7 @@
 - repo: checkout
   dirty: true
   branch: v2dev
-  version: v1.0
+  version: '1.0'
   count: 1
   node: gc911781
   commit: c911781ce4266aa736c56fa8043183eab82d9c41

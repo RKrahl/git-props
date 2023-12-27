@@ -43,7 +43,7 @@ class GitRepo:
     def get_last_commit(self):
         return self._exec("git rev-parse --verify --quiet HEAD")
 
-    def get_last_version(self):
+    def get_last_version_tag(self):
         candidate_tags = set()
         shadowed_tags = set()
         try:
@@ -52,19 +52,19 @@ class GitRepo:
             return None
         for t in tags:
             try:
-                candidate_tags.add(Version(t))
+                # Ignore all tags that do not parse as Version
+                Version(t)
             except ValueError:
                 continue
+            candidate_tags.add(t)
             for t1 in self._exec("git tag --merged %s" % t).split('\n'):
                 if t1 == t:
                     continue
-                try:
-                    shadowed_tags.add(Version(t1))
-                except ValueError:
-                    continue
-        versions = candidate_tags - shadowed_tags
-        if versions:
-            return sorted(versions)[-1]
+                shadowed_tags.add(t1)
+        version_tags = candidate_tags - shadowed_tags
+        if version_tags:
+            # Pick the last tag in Version ordering
+            return sorted(version_tags, key=Version)[-1]
         else:
             return None
 
@@ -79,15 +79,18 @@ class GitRepo:
         return bool(self._exec("git status --porcelain --untracked-files=no"))
 
     def get_version_meta(self):
-        version = self.get_last_version()
+        version_tag = self.get_last_version_tag()
         try:
-            if version:
-                count = self.get_rev_count(base=str(version))
+            if version_tag:
+                version = Version(version_tag)
+                count = self.get_rev_count(base=version_tag)
             else:
+                version = None
                 count = self.get_rev_count()
             commit = self.get_last_commit()
             node = 'g' + commit[:7]
         except GitError:
+            version = None
             count = 0
             node = None
         return VersionMeta(version, count, node, self.is_dirty())
