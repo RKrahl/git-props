@@ -116,6 +116,7 @@ setup(
         Download="https://github.com/RKrahl/git-props/releases/latest",
     ),
     packages = ["gitprops"],
+    package_dir = {"": "src"},
     python_requires = ">=3.6",
     install_requires = ["packaging"],
     cmdclass = dict(cmdclass, build_py=build_py, sdist=sdist, meta=meta),
