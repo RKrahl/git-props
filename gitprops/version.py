@@ -1,6 +1,7 @@
 """Provide class Verson
 """
 
+import datetime
 import itertools
 import packaging.version
 
@@ -10,6 +11,7 @@ class Version(packaging.version.Version):
 
     This class extends :class:`packaging.version.Version`:
 
+    + add class method build_version(),
     + add a __hash__() method,
     + add comparison with strings.
 
@@ -28,6 +30,50 @@ class Version(packaging.version.Version):
     >>> version == '5.0.0a1'
     True
     """
+
+    @classmethod
+    def build_version(cls, version, count, node, dirty):
+        """Build a new version based on repository metadata.
+        """
+        # Start from a copy of the last version
+        if version:
+            new_version = cls(str(version))
+        else:
+            new_version = cls('0.1.dev0')
+        _ver = new_version._version
+        repl = dict()
+        if dirty:
+            dirtytag = datetime.date.today().strftime("d%Y%m%d")
+        if count:
+            # local part is build from node and dirty, boldly overwriting
+            # anything that may be set here
+            if dirty:
+                repl['local'] = (node, dirtytag)
+            else:
+                repl['local'] = (node,)
+            # drop post part unconditionally
+            repl['post'] = None
+            if _ver.dev:
+                # dev part is present: increment its numerical
+                # component by count
+                repl['dev'] = ('dev', _ver.dev[1]+count)
+            else:
+                # dev part is not present: add a dev part with count as
+                # numerical component and increment either the pre or the
+                # release part by one
+                repl['dev'] = ('dev', count)
+                if _ver.pre:
+                    repl['pre'] = (_ver.pre[0], _ver.pre[1]+1)
+                else:
+                    repl['release'] = _ver.release[0:-1] + (_ver.release[-1]+1,)
+        elif dirty:
+            repl['local'] = (dirtytag,)
+        # apply the accumulated replacements and return the new version
+        if repl:
+            new_version._version = _ver._replace(**repl)
+            new_version = cls(str(new_version))
+        return new_version
+
     def __hash__(self):
         # strip trailing zero segments from release
         release = tuple(

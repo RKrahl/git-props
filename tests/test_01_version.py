@@ -1,6 +1,7 @@
 """Test module icat.helper
 """
 
+import datetime
 import packaging.version
 import pytest
 from gitprops.version import Version
@@ -44,3 +45,25 @@ def test_version_set():
     assert Version("1.0.0") in s
     assert Version("1.0.1") in s
     assert Version("1.0.0.0") in s
+
+@pytest.mark.parametrize(("version, count, node, dirty, expected"), [
+    (None, 0, None, False, '0.1.dev0'),
+    (None, 0, None, True, '0.1.dev0+d%(today)s'),
+    (None, 5, 'g784361a', False, '0.1.dev5+g784361a'),
+    (None, 5, 'g784361a', True, '0.1.dev5+g784361a.d%(today)s'),
+    (Version('1.0'), 0, 'g784361a', False, '1.0'),
+    (Version('1.0'), 0, 'g784361a', True, '1.0+d%(today)s'),
+    (Version('1.0'), 5, 'g784361a', False, '1.1.dev5+g784361a'),
+    (Version('1.0'), 5, 'g784361a', True, '1.1.dev5+g784361a.d%(today)s'),
+    (Version('1.0.0'), 5, 'g784361a', False, '1.0.1.dev5+g784361a'),
+    (Version('1.0.0a1'), 5, 'g784361a', False, '1.0.0a2.dev5+g784361a'),
+    (Version('1.0.0b2'), 5, 'g784361a', False, '1.0.0b3.dev5+g784361a'),
+    (Version('1.0.0rc1'), 5, 'g784361a', False, '1.0.0rc2.dev5+g784361a'),
+    (Version('1.0.0.post1'), 5, 'g784361a', False, '1.0.1.dev5+g784361a'),
+    (Version('1.0.0+abc'), 5, 'g784361a', False, '1.0.1.dev5+g784361a'),
+])
+def test_build_version(version, count, node, dirty, expected):
+    subst = {'today': datetime.date.today().strftime("%Y%m%d")}
+    expected = expected % subst
+    new_ver = Version.build_version(version, count, node, dirty)
+    assert new_ver == expected
