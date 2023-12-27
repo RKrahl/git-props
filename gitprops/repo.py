@@ -51,10 +51,13 @@ class GitRepo:
         except GitError:
             return None
         for t in tags:
+            # Ignore all tags that do not parse as Version
             try:
-                # Ignore all tags that do not parse as Version
-                Version(t)
+                v = Version(t)
             except ValueError:
+                continue
+            # Ignore post-releases
+            if v.is_postrelease:
                 continue
             candidate_tags.add(t)
             for t1 in self._exec("git tag --merged %s" % t).split('\n'):
