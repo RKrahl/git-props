@@ -6,7 +6,7 @@ import datetime
 import os
 from pathlib import Path
 import subprocess
-from gitprops.version import Version
+from .version import Version
 
 
 class GitError(Exception):
