@@ -19,11 +19,11 @@ except (ImportError, AttributeError):
     cmdclass = dict()
 try:
     import gitprops
-    version = str(gitprops.get_version())
     release = str(gitprops.get_last_release())
+    version = str(gitprops.get_version())
 except (ImportError, LookupError):
     try:
-        from _meta import version, release
+        from _meta import release, version
     except ImportError:
         log.warn("warning: cannot determine version number")
         release = version = "UNKNOWN"
@@ -36,6 +36,7 @@ class meta(setuptools.Command):
     description = "generate meta files"
     user_options = []
     meta_template = '''
+release = "%(release)s"
 version = "%(version)s"
 '''
 
@@ -49,6 +50,7 @@ version = "%(version)s"
         version = self.distribution.get_version()
         log.info("version: %s", version)
         values = {
+            'release': release,
             'version': version,
         }
         with Path("_meta.py").open("wt") as f:
