@@ -1,22 +1,36 @@
 %bcond_without tests
 %global distname git-props
 
-Name:		python3-%{distname}
+%if 0%{?sle_version} >= 150500
+%global pythons python3 python311
+%else
+%{?!python_module:%define python_module() python3-%{**}}
+%define skip_python2 1
+%endif
+
+Name:		python-%{distname}
 Version:	$version
 Release:	0
-Url:		$url
 Summary:	$description
 License:	Apache-2.0
-Group:		Development/Libraries/Python
-Source:		%{distname}-%{version}.tar.gz
-BuildRequires:	python3-base >= 3.6
-BuildRequires:	python3-setuptools
+URL:		$url
+Group:		Development/Languages/Python
+Source:		https://github.com/RKrahl/git-props/releases/download/%{version}/%{distname}-%{version}.tar.gz
+BuildRequires:	%{python_module base >= 3.6}
+BuildRequires:	%{python_module setuptools}
+BuildRequires:	fdupes
+BuildRequires:	python-rpm-macros
 %if %{with tests}
-BuildRequires:	python3-distutils-pytest
-BuildRequires:	python3-pytest >= 3.0
+BuildRequires:	git
+BuildRequires:	%{python_module PyYAML >= 5.1}
+BuildRequires:	%{python_module distutils-pytest}
+BuildRequires:	%{python_module packaging}
+BuildRequires:	%{python_module pytest >= 3.0}
 %endif
+Requires:	git
+Requires:	python-packaging
 BuildArch:	noarch
-BuildRoot:	%{_tmppath}/%{name}-%{version}-build
+%python_subpackages
 
 %description
 $long_description
@@ -27,24 +41,24 @@ $long_description
 
 
 %build
-python3 setup.py build
+%python_build
 
 
 %install
-python3 setup.py install --optimize=1 --prefix=%{_prefix} --root=%{buildroot}
+%python_install
+%fdupes %{buildroot}%{python_sitelib}
 
 
 %if %{with tests}
 %check
-python3 setup.py test
+%python_expand $$python setup.py test
 %endif
 
 
-%files
-%defattr(-,root,root)
-%doc README.rst CHANGES.rst
+%files %{python_files}
 %license LICENSE.txt
-%{python3_sitelib}/*
+%doc README.rst CHANGES.rst
+%{python_sitelib}/*
 
 
 %changelog
