@@ -40,7 +40,7 @@ Optional library packages:
 
   Only needed to run the test suite.
 
-+ `PyYAML`_ >= 5.4
++ `PyYAML`_ >= 5.1
 
   Only needed to run the test suite.
 
