@@ -1,3 +1,13 @@
+|gh-test| |pypi|
+
+.. |gh-test| image:: https://img.shields.io/github/actions/workflow/status/RKrahl/git-props/run-tests.yaml?branch=master
+   :target: https://github.com/RKrahl/git-props/actions/workflows/run-tests.yaml
+   :alt: GitHub Workflow Status
+
+.. |pypi| image:: https://img.shields.io/pypi/v/git-props
+   :target: https://pypi.org/project/git-props/
+   :alt: PyPI version
+
 Git properties
 ==============
 
