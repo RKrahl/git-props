@@ -4,117 +4,130 @@
 - repo: empty
   dirty: false
   branch: null
-  version: null
+  tag: null
   count: 0
   node: null
   commit: null
+  version: '0.1.dev0'
   date: null
   marks: null
 - repo: empty
   dirty: true
   branch: null
-  version: null
+  tag: null
   count: 0
   node: null
   commit: null
+  version: '0.1.dev0+d%(today_str)s'
   date: today
   marks: null
 - repo: notag
   dirty: false
   branch: null
-  version: null
+  tag: null
   count: 2
   node: g736e50c
   commit: 736e50c3f52630327a3cebb0d4fb0ceb842cb8a3
+  version: '0.1.dev2+%(node)s'
   date: 2023-12-24
   marks: null
 - repo: notag
   dirty: true
   branch: null
-  version: null
+  tag: null
   count: 2
   node: g736e50c
   commit: 736e50c3f52630327a3cebb0d4fb0ceb842cb8a3
+  version: '0.1.dev2+%(node)s.d%(today_str)s'
   date: today
   marks: null
 - repo: ver
   dirty: false
   branch: null
-  version: '1.0'
+  tag: '1.0'
   count: 0
   node: g736e50c
   commit: 736e50c3f52630327a3cebb0d4fb0ceb842cb8a3
+  version: '1.0'
   date: 2023-12-24
   marks: null
 - repo: ver
   dirty: true
   branch: null
-  version: '1.0'
+  tag: '1.0'
   count: 0
   node: g736e50c
   commit: 736e50c3f52630327a3cebb0d4fb0ceb842cb8a3
+  version: '1.0+d%(today_str)s'
   date: today
   marks: null
 - repo: simple
   dirty: false
   branch: null
-  version: '1.0'
+  tag: '1.0'
   count: 2
   node: gdc20d45
   commit: dc20d45d07380530c853e9d68a4b4b404cef4b72
+  version: '1.1.dev2+%(node)s'
   date: 2023-12-24
   marks: null
 - repo: simple
   dirty: true
   branch: null
-  version: '1.0'
+  tag: '1.0'
   count: 2
   node: gdc20d45
   commit: dc20d45d07380530c853e9d68a4b4b404cef4b72
+  version: '1.1.dev2+%(node)s.d%(today_str)s'
   date: today
   marks: null
 - repo: branch
   dirty: false
   branch: null
-  version: '1.0'
+  tag: '1.0'
   count: 4
   node: gff32a85
   commit: ff32a852c06892f543afc1f6b607b7da24bce6b3
+  version: '1.1.dev4+%(node)s'
   date: 2023-12-24
   marks: null
 - repo: multitag1
   dirty: false
   branch: null
-  version: '2.0'
+  tag: '2.0'
   count: 2
   node: gff32a85
   commit: ff32a852c06892f543afc1f6b607b7da24bce6b3
+  version: '2.1.dev2+%(node)s'
   date: 2023-12-24
   marks: null
 - repo: multitag2
   dirty: false
   branch: null
-  version: '2.0'
+  tag: '2.0'
   count: 3
   node: gff32a85
   commit: ff32a852c06892f543afc1f6b607b7da24bce6b3
+  version: '2.1.dev3+%(node)s'
   date: 2023-12-24
   marks: null
 - repo: checkout
   dirty: false
   branch: v2dev
-  version: '1.0'
+  tag: '1.0'
   count: 1
   node: gc911781
   commit: c911781ce4266aa736c56fa8043183eab82d9c41
+  version: '1.1.dev1+%(node)s'
   date: 2023-12-24
   marks: null
 - repo: checkout
   dirty: true
   branch: v2dev
-  version: '1.0'
+  tag: '1.0'
   count: 1
   node: gc911781
   commit: c911781ce4266aa736c56fa8043183eab82d9c41
+  version: '1.1.dev1+%(node)s.d%(today_str)s'
   date: today
   marks: null

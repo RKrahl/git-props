@@ -15,12 +15,16 @@ _cleanup = True
 
 CaseTuple = namedtuple('CaseTuple', [
     'repo', 'branch', 'dirty',
-    'version', 'count', 'node', 'commit', 'date', 'marks',
+    'tag', 'count', 'node', 'commit', 'version', 'date', 'marks',
 ])
 class Case(CaseTuple):
     def __new__(cls, **kwargs):
+        today = datetime.date.today()
+        subst = dict(kwargs, today=today, today_str=today.strftime("%Y%m%d"))
         if kwargs.get('date') == 'today':
-            kwargs['date'] = datetime.date.today()
+            kwargs['date'] = subst['today']
+        if kwargs.get('version'):
+            kwargs['version'] = kwargs['version'] % subst
         return super().__new__(cls, **kwargs)
     @property
     def name(self):
