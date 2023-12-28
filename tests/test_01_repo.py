@@ -4,7 +4,6 @@
 import pytest
 from gitprops.repo import GitError, GitRepo
 from gitprops.version import Version
-from conftest import get_test_repo
 
 
 def test_repo_commit(repo_case):
