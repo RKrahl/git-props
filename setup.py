@@ -18,15 +18,15 @@ try:
 except (ImportError, AttributeError):
     cmdclass = dict()
 try:
-    import setuptools_scm
-    version = setuptools_scm.get_version()
+    import gitprops
+    version = str(gitprops.get_version())
+    release = str(gitprops.get_last_release())
 except (ImportError, LookupError):
     try:
-        import _meta
-        version = _meta.version
+        from _meta import version, release
     except ImportError:
         log.warn("warning: cannot determine version number")
-        version = "UNKNOWN"
+        release = version = "UNKNOWN"
 
 docstring = __doc__
 
@@ -113,7 +113,7 @@ setup(
     ],
     project_urls = dict(
         Source="https://github.com/RKrahl/git-props",
-        Download="https://github.com/RKrahl/git-props/releases/latest",
+        Download=("https://github.com/RKrahl/git-props/releases/%s/" % release),
     ),
     packages = ["gitprops"],
     package_dir = {"": "src"},
