@@ -1,4 +1,5 @@
 PyYAML >=5.1
 distutils-pytest
+git-props
 pytest >=3.0.0
-setuptools_scm
+setuptools

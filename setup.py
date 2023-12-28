@@ -18,15 +18,15 @@ try:
 except (ImportError, AttributeError):
     cmdclass = dict()
 try:
-    import setuptools_scm
-    version = setuptools_scm.get_version()
+    import gitprops
+    version = str(gitprops.get_version())
+    release = str(gitprops.get_last_release())
 except (ImportError, LookupError):
     try:
-        import _meta
-        version = _meta.version
+        from _meta import version, release
     except ImportError:
         log.warn("warning: cannot determine version number")
-        version = "UNKNOWN"
+        release = version = "UNKNOWN"
 
 docstring = __doc__
 
@@ -97,7 +97,7 @@ setup(
     author_email = "rolf@rotkraut.de",
     license = "Apache-2.0",
     classifiers = [
-        "Development Status :: 1 - Planning",
+        "Development Status :: 3 - Alpha",
         "Intended Audience :: Developers",
         "License :: OSI Approved :: Apache Software License",
         "Operating System :: OS Independent",
@@ -113,11 +113,11 @@ setup(
     ],
     project_urls = dict(
         Source="https://github.com/RKrahl/git-props",
-        Download="https://github.com/RKrahl/git-props/releases/latest",
+        Download=("https://github.com/RKrahl/git-props/releases/%s/" % release),
     ),
     packages = ["gitprops"],
     package_dir = {"": "src"},
     python_requires = ">=3.6",
-    install_requires = ["packaging"],
+    install_requires = ["setuptools", "packaging"],
     cmdclass = dict(cmdclass, build_py=build_py, sdist=sdist, meta=meta),
 )
