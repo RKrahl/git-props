@@ -39,7 +39,7 @@ def get_testdata(fname):
 def get_test_cases():
     casefile = get_testdata("caselist.yaml")
     with open(casefile, "rt") as f:
-        for c in yaml.load(f, Loader=yaml.CLoader):
+        for c in yaml.unsafe_load(f):
             case = Case(**c)
             marks = case.marks if case.marks else ()
             id = case.name
