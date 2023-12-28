@@ -118,6 +118,6 @@ setup(
     packages = ["gitprops"],
     package_dir = {"": "src"},
     python_requires = ">=3.6",
-    install_requires = ["packaging"],
+    install_requires = ["setuptools", "packaging"],
     cmdclass = dict(cmdclass, build_py=build_py, sdist=sdist, meta=meta),
 )
