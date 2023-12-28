@@ -31,7 +31,8 @@ class GitRepo:
                                   universal_newlines=True)
             return proc.stdout.strip()
         except subprocess.CalledProcessError as exc:
-            raise GitError("git command '%s' failed" % cmd) from exc
+            msg = "git command '%s' failed:\n%s" % (cmd, exc.stderr)
+            raise GitError(msg) from exc
 
     def __init__(self, root="."):
         self.root = Path(root).resolve()
