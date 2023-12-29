@@ -38,8 +38,8 @@ Optional library packages:
 
   This package is used to extract some metadata such as the version
   number out of git, the version control system.  All releases embed
-  the metadata in the distribution.  So this package is only needed to
-  build out of the plain development source tree as cloned from
+  that metadata in the distribution.  So this package is only needed
+  to build out of the plain development source tree as cloned from
   GitHub, but not to build a release distribution.
 
 + `pytest`_ >= 3.0
