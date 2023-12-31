@@ -10,6 +10,13 @@ New features
 
 + `#2`_, `#6`_: Add a command line interface.
 
+Bug fixes and minor changes
+---------------------------
+
++ `#7`_, `#8`_: package level functions :func:`get_version`,
+  :func:`get_last_release` and :func:`get_date` raise
+  :exc:`LookupError` when the git executable is not found.
+
 Internal changes
 ----------------
 
@@ -19,6 +26,8 @@ Internal changes
 .. _#2: https://github.com/RKrahl/git-props/issues/2
 .. _#5: https://github.com/RKrahl/git-props/pull/5
 .. _#6: https://github.com/RKrahl/git-props/pull/6
+.. _#7: https://github.com/RKrahl/git-props/issues/7
+.. _#8: https://github.com/RKrahl/git-props/pull/8
 
 
 0.1 (2023-12-28)
