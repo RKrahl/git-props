@@ -16,7 +16,6 @@ def git_fail_run(cmd, **kwargs):
     else:
         return _orig_subprocess_run(cmd, **kwargs)
 
-@pytest.mark.xfail(raises=FileNotFoundError, reason="Issue #7")
 def test_nogit_error_get_version(monkeypatch):
     """Test the error condition that the git executable is not found.
     """
@@ -24,7 +23,6 @@ def test_nogit_error_get_version(monkeypatch):
     with pytest.raises(LookupError):
         get_version()
 
-@pytest.mark.xfail(raises=FileNotFoundError, reason="Issue #7")
 def test_nogit_error_get_last_release(monkeypatch):
     """Test the error condition that the git executable is not found.
     """
@@ -32,7 +30,6 @@ def test_nogit_error_get_last_release(monkeypatch):
     with pytest.raises(LookupError):
         get_last_release()
 
-@pytest.mark.xfail(raises=FileNotFoundError, reason="Issue #7")
 def test_nogit_error_get_date(monkeypatch):
     """Test the error condition that the git executable is not found.
     """

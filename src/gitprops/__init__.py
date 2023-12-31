@@ -14,7 +14,10 @@ _repo_cache = dict()
 def _get_repo(root):
     root = Path(root).resolve()
     if root not in _repo_cache:
-        _repo_cache[root] = GitRepo(root)
+        try:
+            _repo_cache[root] = GitRepo(root)
+        except FileNotFoundError as exc:
+            raise LookupError() from exc
     return _repo_cache[root]
 
 
