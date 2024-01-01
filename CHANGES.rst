@@ -22,12 +22,16 @@ Internal changes
 
 + `#1`_, `#5`_: Drop `setuptools_scm` in favour of `git-props`.
 
++ `#3`_, `#9`_: Review test suite.
+
 .. _#1: https://github.com/RKrahl/git-props/issues/1
 .. _#2: https://github.com/RKrahl/git-props/issues/2
+.. _#3: https://github.com/RKrahl/git-props/issues/3
 .. _#5: https://github.com/RKrahl/git-props/pull/5
 .. _#6: https://github.com/RKrahl/git-props/pull/6
 .. _#7: https://github.com/RKrahl/git-props/issues/7
 .. _#8: https://github.com/RKrahl/git-props/pull/8
+.. _#9: https://github.com/RKrahl/git-props/pull/9
 
 
 0.1 (2023-12-28)
