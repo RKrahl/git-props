@@ -58,7 +58,7 @@ Optional library packages:
 Copyright and License
 ---------------------
 
-Copyright 2023 Rolf Krahl
+Copyright 2023–2024 Rolf Krahl
 
 Licensed under the `Apache License`_, Version 2.0 (the "License"); you
 may not use this package except in compliance with the License.
