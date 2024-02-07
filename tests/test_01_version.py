@@ -1,4 +1,4 @@
-"""Test module icat.helper
+"""Test module gitprops.version
 """
 
 import datetime
