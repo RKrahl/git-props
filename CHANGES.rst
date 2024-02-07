@@ -2,6 +2,26 @@ Changelog
 =========
 
 
+0.3 (not yet released)
+~~~~~~~~~~~~~~~~~~~~~~
+
+Incompatible changes
+--------------------
+
++ `#11`_: Rename :meth:`gitprops.GitRepo.get_last_version_tag` to
+  :meth:`gitprops.GitRepo.get_version_tag`.  This method now takes an
+  optional argument, indicating the commit to return.
+
+Bug fixes and minor changes
+---------------------------
+
++ `#10`_, `#11`_: fail to detect last version tag if the corresponding
+  commit has multiple version tags.
+
+.. _#10: https://github.com/RKrahl/git-props/issues/10
+.. _#11: https://github.com/RKrahl/git-props/pull/11
+
+
 0.2 (2024-01-01)
 ~~~~~~~~~~~~~~~~
 
@@ -13,9 +33,9 @@ New features
 Bug fixes and minor changes
 ---------------------------
 
-+ `#7`_, `#8`_: package level functions :func:`get_version`,
-  :func:`get_last_release` and :func:`get_date` raise
-  :exc:`LookupError` when the git executable is not found.
++ `#7`_, `#8`_: package level functions :func:`gitprops.get_version`,
+  :func:`gitprops.get_last_release` and :func:`gitprops.get_date`
+  raise :exc:`LookupError` when the git executable is not found.
 
 Internal changes
 ----------------

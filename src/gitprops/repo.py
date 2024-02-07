@@ -41,8 +41,8 @@ class GitRepo:
         self.git_version = self._exec("git version")
         self.root = Path(self._exec("git rev-parse --show-toplevel"))
 
-    def get_last_commit(self):
-        return self._exec("git rev-parse --verify --quiet HEAD")
+    def get_commit(self, ref='HEAD'):
+        return self._exec("git rev-list -n 1 %s" % ref)
 
     def get_last_version_tag(self):
         candidate_tags = set()
@@ -61,8 +61,9 @@ class GitRepo:
             if v.is_postrelease:
                 continue
             candidate_tags.add(t)
+            commit = self.get_commit(t)
             for t1 in self._exec("git tag --merged %s" % t).split('\n'):
-                if t1 == t:
+                if self.get_commit(t1) == commit:
                     continue
                 shadowed_tags.add(t1)
         version_tags = candidate_tags - shadowed_tags
@@ -91,7 +92,7 @@ class GitRepo:
             else:
                 version = None
                 count = self.get_rev_count()
-            commit = self.get_last_commit()
+            commit = self.get_commit()
             node = 'g' + commit[:7]
         except GitError:
             version = None
