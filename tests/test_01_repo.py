@@ -9,10 +9,10 @@ from gitprops.version import Version
 def test_repo_commit(repo_case):
     repo = repo_case.repo
     if repo_case.commit is not None:
-        assert repo.get_last_commit() == repo_case.commit
+        assert repo.get_commit() == repo_case.commit
     else:
         with pytest.raises(GitError):
-            repo.get_last_commit()
+            repo.get_commit()
 
 def test_repo_last_version(repo_case):
     repo = repo_case.repo

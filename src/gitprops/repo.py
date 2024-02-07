@@ -41,8 +41,8 @@ class GitRepo:
         self.git_version = self._exec("git version")
         self.root = Path(self._exec("git rev-parse --show-toplevel"))
 
-    def get_last_commit(self):
-        return self._exec("git rev-parse --verify --quiet HEAD")
+    def get_commit(self, ref='HEAD'):
+        return self._exec("git rev-list -n 1 %s" % ref)
 
     def get_last_version_tag(self):
         candidate_tags = set()
@@ -91,7 +91,7 @@ class GitRepo:
             else:
                 version = None
                 count = self.get_rev_count()
-            commit = self.get_last_commit()
+            commit = self.get_commit()
             node = 'g' + commit[:7]
         except GitError:
             version = None
