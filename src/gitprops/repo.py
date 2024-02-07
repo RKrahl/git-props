@@ -61,8 +61,9 @@ class GitRepo:
             if v.is_postrelease:
                 continue
             candidate_tags.add(t)
+            commit = self.get_commit(t)
             for t1 in self._exec("git tag --merged %s" % t).split('\n'):
-                if t1 == t:
+                if self.get_commit(t1) == commit:
                     continue
                 shadowed_tags.add(t1)
         version_tags = candidate_tags - shadowed_tags
