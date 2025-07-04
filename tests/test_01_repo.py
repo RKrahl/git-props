@@ -2,7 +2,7 @@
 """
 
 import pytest
-from gitprops.repo import GitError, GitRepo
+from gitprops.repo import GitError
 from gitprops.version import Version
 
 
