@@ -67,7 +67,7 @@ def get_test_repo(base, case):
     if case.dirty:
         (repo_dir / "_taint").touch(exist_ok=False)
         repo._exec("git add _taint")
-    return repo_dir
+    return repo
 
 
 @pytest.fixture(scope="module")
@@ -80,8 +80,7 @@ def tmpdir():
 @pytest.fixture(scope="module", params=get_test_cases())
 def repo_case(tmpdir, request):
     case = request.param
-    r = get_test_repo(tmpdir, case)
-    return case._replace(repo=GitRepo(r))
+    return case._replace(repo=get_test_repo(tmpdir, case))
 
 
 def pytest_addoption(parser):
