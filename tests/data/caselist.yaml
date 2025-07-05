@@ -166,3 +166,14 @@
   date: 2024-01-01
   marks: null
   version_git_calls: 9
+- repo: cases
+  dirty: false
+  branch: manytags
+  tag: '3.0a1'
+  count: 52
+  node: gcaf8819
+  commit: caf8819fe95f4121891db1161322a4d4ee3cff1e
+  version: '3.0a2.dev52+%(node)s'
+  date: 2025-07-05
+  marks: null
+  version_git_calls: 1391
