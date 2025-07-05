@@ -16,6 +16,18 @@ class GitError(Exception):
 VersionMeta = namedtuple('VersionMeta', ['version', 'count', 'node', 'dirty'])
 
 
+def _to_version(tags):
+    """Convert tag strings to Version.
+
+    Iterates over tags and converts the tags to Version.  Silently
+    drop tags that do not properly parse as Version.
+    """
+    for t in tags:
+        try:
+            yield Version(t)
+        except ValueError:
+            continue
+
 class GitRepo:
     """Determine properties of the git repository.
     """
@@ -45,31 +57,29 @@ class GitRepo:
         return self._exec("git rev-list -n 1 %s" % ref)
 
     def get_last_version_tag(self):
-        candidate_tags = set()
-        shadowed_tags = set()
+        candidates = set()
+        shadowed = set()
         try:
             tags = self._exec("git tag --merged").split('\n')
         except GitError:
             return None
-        for t in tags:
-            # Ignore all tags that do not parse as Version
-            try:
-                v = Version(t)
-            except ValueError:
-                continue
+        versions = sorted(_to_version(tags), reverse=True)
+        for v in versions:
             # Ignore post-releases
             if v.is_postrelease:
                 continue
-            candidate_tags.add(t)
-            commit = self.get_commit(t)
-            for t1 in self._exec("git tag --merged %s" % t).split('\n'):
-                if self.get_commit(t1) == commit:
-                    continue
-                shadowed_tags.add(t1)
-        version_tags = candidate_tags - shadowed_tags
-        if version_tags:
-            # Pick the last tag in Version ordering
-            return sorted(version_tags, key=Version)[-1]
+            if v in shadowed:
+                continue
+            candidates.add(v)
+            t = v.orig_version
+            sh_tags = self._exec("git tag --merged %s" % t).split('\n')
+            sh_versions = set(_to_version(sh_tags))
+            sh_versions.remove(v)
+            shadowed.update(sh_versions)
+        versions = candidates - shadowed
+        if versions:
+            # Pick the first tag in reverse Version ordering
+            return sorted(versions, reverse=True)[0].orig_version
         else:
             return None
 

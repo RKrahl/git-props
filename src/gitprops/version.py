@@ -12,6 +12,8 @@ class Version(packaging.version.Version):
     This class extends :class:`packaging.version.Version`:
 
     + add class method build_version(),
+    + keep the original version string and expose it in
+      :attr:`~gitprops.version.Version.orig_version`,
     + add a __hash__() method,
     + add comparison with strings.
 
@@ -29,6 +31,17 @@ class Version(packaging.version.Version):
     True
     >>> version == '5.0.0a1'
     True
+    >>> v = Version('v1.0')
+    >>> str(v)
+    '1.0'
+    >>> v.orig_version
+    'v1.0'
+    >>> v = Version('v1.01')
+    >>> str(v)
+    '1.1'
+    >>> v.orig_version
+    'v1.01'
+
     """
 
     @classmethod
@@ -73,6 +86,14 @@ class Version(packaging.version.Version):
             new_version._version = _ver._replace(**repl)
             new_version = cls(str(new_version))
         return new_version
+
+    def __init__(self, version):
+        self._orig_version = version
+        super().__init__(version)
+
+    @property
+    def orig_version(self):
+        return self._orig_version
 
     def __hash__(self):
         # strip trailing zero segments from release

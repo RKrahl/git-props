@@ -13,9 +13,26 @@ testdir = Path(__file__).resolve().parent
 testdatadir = testdir / "data"
 _cleanup = True
 
+class CountingGitRepo(GitRepo):
+    """A git repo that counts the number of git invocations.
+    """
+
+    def __init__(self, root="."):
+        self._invocation_count = 0
+        super().__init__(root=root)
+
+    def _exec(self, cmd):
+        self._invocation_count += 1
+        return super()._exec(cmd)
+
+    @property
+    def invocation_count(self):
+        return self._invocation_count
+
 CaseTuple = namedtuple('CaseTuple', [
     'repo', 'branch', 'dirty',
     'tag', 'count', 'node', 'commit', 'version', 'date', 'marks',
+    'version_git_calls',
 ])
 class Case(CaseTuple):
     def __new__(cls, **kwargs):
@@ -61,13 +78,13 @@ def get_test_repo(base, case):
         tarf.extractall(path=tmp_dir)
     (tmp_dir / case.repo).rename(repo_dir)
     tmp_dir.rmdir()
-    repo = GitRepo(repo_dir)
+    repo = CountingGitRepo(repo_dir)
     if case.branch:
         repo._exec("git checkout %s" % case.branch)
     if case.dirty:
         (repo_dir / "_taint").touch(exist_ok=False)
         repo._exec("git add _taint")
-    return repo_dir
+    return repo
 
 
 @pytest.fixture(scope="module")
@@ -80,8 +97,7 @@ def tmpdir():
 @pytest.fixture(scope="module", params=get_test_cases())
 def repo_case(tmpdir, request):
     case = request.param
-    r = get_test_repo(tmpdir, case)
-    return case._replace(repo=GitRepo(r))
+    return case._replace(repo=get_test_repo(tmpdir, case))
 
 
 def pytest_addoption(parser):
