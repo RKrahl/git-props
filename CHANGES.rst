@@ -2,6 +2,23 @@ Changelog
 =========
 
 
+.. _changes-0_4_0:
+
+0.4 (not yet released)
+~~~~~~~~~~~~~~~~~~~~~~
+
+Bug fixes and minor changes
+---------------------------
+
++ `#12`_, `#13`_: fail to detect last version tag if the corresponding
+  commit has multiple version tags.
+
+.. _#12: https://github.com/RKrahl/git-props/issues/12
+.. _#13: https://github.com/RKrahl/git-props/pull/13
+
+
+.. _changes-0_3_0:
+
 0.3 (2024-02-07)
 ~~~~~~~~~~~~~~~~
 
@@ -21,6 +38,8 @@ Bug fixes and minor changes
 .. _#10: https://github.com/RKrahl/git-props/issues/10
 .. _#11: https://github.com/RKrahl/git-props/pull/11
 
+
+.. _changes-0_2_0:
 
 0.2 (2024-01-01)
 ~~~~~~~~~~~~~~~~
@@ -53,6 +72,8 @@ Internal changes
 .. _#8: https://github.com/RKrahl/git-props/pull/8
 .. _#9: https://github.com/RKrahl/git-props/pull/9
 
+
+.. _changes-0_1_0:
 
 0.1 (2023-12-28)
 ~~~~~~~~~~~~~~~~
