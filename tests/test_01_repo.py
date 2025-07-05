@@ -10,13 +10,15 @@ from gitprops.version import Version
 logger = logging.getLogger(__name__)
 
 @contextlib.contextmanager
-def log_invocations(request, repo):
+def log_invocations(request, repo, max_call=None):
     name = request.node.nodeid.split("::", 1)[1]
     pre_count = repo.invocation_count
     logger.debug("%s: git invocations before the test: %d", name, pre_count)
     yield
     post_count = repo.invocation_count
     logger.debug("%s: git invocations after the test: %d", name, post_count)
+    if max_call:
+        assert post_count - pre_count <= max_call
 
 
 def test_repo_commit(request, repo_case):
@@ -30,7 +32,7 @@ def test_repo_commit(request, repo_case):
 
 def test_repo_last_version(request, repo_case):
     repo = repo_case.repo
-    with log_invocations(request, repo):
+    with log_invocations(request, repo, max_call=repo_case.version_git_calls):
         if repo_case.tag is None:
             assert repo.get_last_version_tag() is None
         else:

@@ -11,6 +11,7 @@
   version: '0.1.dev0'
   date: null
   marks: null
+  version_git_calls: 1
 - repo: empty
   dirty: true
   branch: null
@@ -21,6 +22,7 @@
   version: '0.1.dev0+d%(today_str)s'
   date: today
   marks: null
+  version_git_calls: 1
 - repo: notag
   dirty: false
   branch: null
@@ -31,6 +33,7 @@
   version: '0.1.dev2+%(node)s'
   date: 2023-12-24
   marks: null
+  version_git_calls: 1
 - repo: notag
   dirty: true
   branch: null
@@ -41,6 +44,7 @@
   version: '0.1.dev2+%(node)s.d%(today_str)s'
   date: today
   marks: null
+  version_git_calls: 1
 - repo: ver
   dirty: false
   branch: null
@@ -51,6 +55,7 @@
   version: '1.0'
   date: 2024-01-01
   marks: null
+  version_git_calls: 4
 - repo: ver
   dirty: true
   branch: null
@@ -61,6 +66,7 @@
   version: '1.0+d%(today_str)s'
   date: today
   marks: null
+  version_git_calls: 4
 - repo: cases
   dirty: false
   branch: simple
@@ -71,6 +77,7 @@
   version: '1.1.dev2+%(node)s'
   date: 2024-01-01
   marks: null
+  version_git_calls: 4
 - repo: cases
   dirty: true
   branch: simple
@@ -81,6 +88,7 @@
   version: '1.1.dev2+%(node)s.d%(today_str)s'
   date: today
   marks: null
+  version_git_calls: 4
 - repo: cases
   dirty: false
   branch: branch
@@ -91,6 +99,7 @@
   version: '1.1.dev4+%(node)s'
   date: 2024-01-01
   marks: null
+  version_git_calls: 4
 - repo: cases
   dirty: false
   branch: multitag1
@@ -101,6 +110,7 @@
   version: '2.1.dev2+%(node)s'
   date: 2024-01-01
   marks: null
+  version_git_calls: 12
 - repo: cases
   dirty: false
   branch: multitag2
@@ -111,6 +121,7 @@
   version: '2.2.dev6+%(node)s'
   date: 2024-01-01
   marks: null
+  version_git_calls: 12
 - repo: cases
   dirty: false
   branch: post
@@ -121,6 +132,7 @@
   version: '2.1.dev4+%(node)s'
   date: 2024-01-01
   marks: null
+  version_git_calls: 12
 - repo: cases
   dirty: false
   branch: local
@@ -131,6 +143,7 @@
   version: '2.3.dev1+%(node)s'
   date: 2024-01-01
   marks: null
+  version_git_calls: 18
 - repo: cases
   dirty: false
   branch: alpha
@@ -141,6 +154,7 @@
   version: '3.0a2.dev2+%(node)s'
   date: 2024-01-01
   marks: null
+  version_git_calls: 19
 - repo: multitag_rev
   dirty: false
   branch: null
@@ -151,3 +165,4 @@
   version: '1.1.dev2+%(node)s'
   date: 2024-01-01
   marks: null
+  version_git_calls: 9

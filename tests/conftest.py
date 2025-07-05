@@ -32,6 +32,7 @@ class CountingGitRepo(GitRepo):
 CaseTuple = namedtuple('CaseTuple', [
     'repo', 'branch', 'dirty',
     'tag', 'count', 'node', 'commit', 'version', 'date', 'marks',
+    'version_git_calls',
 ])
 class Case(CaseTuple):
     def __new__(cls, **kwargs):
