@@ -10,8 +10,8 @@ Changelog
 Bug fixes and minor changes
 ---------------------------
 
-+ `#12`_, `#13`_: fail to detect last version tag if the corresponding
-  commit has multiple version tags.
++ `#12`_, `#13`_: fix severe performance issues on repos with many
+  tags.
 
 .. _#12: https://github.com/RKrahl/git-props/issues/12
 .. _#13: https://github.com/RKrahl/git-props/pull/13
