@@ -23,7 +23,7 @@ def log_invocations(request, repo, max_call=None):
 
 def test_repo_commit(request, repo_case):
     repo = repo_case.repo
-    with log_invocations(request, repo):
+    with log_invocations(request, repo, max_call=1):
         if repo_case.commit is not None:
             assert repo.get_commit() == repo_case.commit
         else:
@@ -40,12 +40,13 @@ def test_repo_last_version(request, repo_case):
 
 def test_repo_dirty(request, repo_case):
     repo = repo_case.repo
-    with log_invocations(request, repo):
+    with log_invocations(request, repo, max_call=1):
         assert repo.is_dirty() == repo_case.dirty
 
 def test_repo_version_meta(request, repo_case):
     repo = repo_case.repo
-    with log_invocations(request, repo):
+    max_call = repo_case.version_git_calls + 3
+    with log_invocations(request, repo, max_call=max_call):
         meta = repo.get_version_meta()
         assert meta.version == repo_case.tag
         assert meta.count == repo_case.count
@@ -54,5 +55,5 @@ def test_repo_version_meta(request, repo_case):
 
 def test_repo_date(request, repo_case):
     repo = repo_case.repo
-    with log_invocations(request, repo):
+    with log_invocations(request, repo, max_call=2):
         assert repo.get_date() == repo_case.date
