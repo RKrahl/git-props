@@ -4,8 +4,8 @@ Changelog
 
 .. _changes-0_4_0:
 
-0.4 (not yet released)
-~~~~~~~~~~~~~~~~~~~~~~
+0.4 (2025-07-06)
+~~~~~~~~~~~~~~~~
 
 Bug fixes and minor changes
 ---------------------------
