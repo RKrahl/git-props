@@ -6,8 +6,17 @@
 # full list see the documentation:
 # http://www.sphinx-doc.org/en/master/config
 
-import _meta
+import os
+from pathlib import Path
+import sys
 
+docsrcdir = Path(__file__).resolve().parent
+maindir = docsrcdir.parent.parent
+buildlib = maindir / "build" / "lib"
+sys.path[0] = str(buildlib)
+sys.dont_write_bytecode = True
+
+import gitprops._meta
 
 # -- Project information -----------------------------------------------------
 
@@ -16,7 +25,7 @@ copyright = '2023–2024, Rolf Krahl'
 author = 'Rolf Krahl'
 
 # The full version, including alpha/beta/rc tags
-release = _meta.__version__
+release = gitprops._meta.version
 # The short X.Y version
 version = ".".join(release.split(".")[0:2])
 
@@ -49,7 +58,7 @@ master_doc = 'index'
 #
 # This is also used if you do content translation via gettext catalogs.
 # Usually you set "language" from the command line for these cases.
-language = None
+language = 'en'
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
@@ -80,6 +89,15 @@ html_theme = 'sphinx_rtd_theme'
 # documentation.
 #
 # html_theme_options = {}
+
+# Define the canonical URL if you are using a custom domain on Read the Docs
+html_baseurl = os.environ.get("READTHEDOCS_CANONICAL_URL", "")
+
+# Tell Jinja2 templates the build is running on Read the Docs
+if os.environ.get("READTHEDOCS", "") == "True":
+    if "html_context" not in globals():
+        html_context = {}
+    html_context["READTHEDOCS"] = True
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,

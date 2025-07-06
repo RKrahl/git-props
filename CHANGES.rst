@@ -12,9 +12,11 @@ Bug fixes and minor changes
 
 + `#12`_, `#13`_: fix severe performance issues on repos with many
   tags.
++ `#14`_: Minor updates in the tool chain.
 
 .. _#12: https://github.com/RKrahl/git-props/issues/12
 .. _#13: https://github.com/RKrahl/git-props/pull/13
+.. _#14: https://github.com/RKrahl/git-props/pull/14
 
 
 .. _changes-0_3_0:
