@@ -8,8 +8,8 @@ import setuptools
 from setuptools import setup
 import setuptools.command.build_py
 import distutils.command.sdist
+import distutils.dist
 from distutils import log
-from glob import glob
 from pathlib import Path
 import string
 try:
@@ -19,7 +19,8 @@ except (ImportError, AttributeError):
     cmdclass = dict()
 try:
     import gitprops
-    release = str(gitprops.get_last_release())
+    release = gitprops.get_last_release()
+    release = release and str(release)
     version = str(gitprops.get_version())
 except (ImportError, LookupError):
     try:
@@ -31,13 +32,22 @@ except (ImportError, LookupError):
 docstring = __doc__
 
 
+# Enforcing of PEP 625 has been added in setuptools 69.3.0.  We don't
+# want this, we want to keep control on the name of the sdist
+# ourselves.  Disable it.
+def _fixed_get_fullname(self):
+    return "%s-%s" % (self.get_name(), self.get_version())
+
+distutils.dist.DistributionMetadata.get_fullname = _fixed_get_fullname
+
+
 class meta(setuptools.Command):
 
     description = "generate meta files"
     user_options = []
     meta_template = '''
-release = "%(release)s"
-version = "%(version)s"
+release = %(release)r
+version = %(version)r
 '''
 
     def initialize_options(self):
@@ -70,8 +80,8 @@ class sdist(distutils.command.sdist.sdist):
             "description": docstring.split("\n")[0],
             "long_description": docstring.split("\n", maxsplit=2)[2].strip(),
         }
-        for spec in glob("*.spec"):
-            with Path(spec).open('rt') as inf:
+        for spec in Path().glob("*.spec"):
+            with spec.open('rt') as inf:
                 with Path(self.dist_dir, spec).open('wt') as outf:
                     outf.write(string.Template(inf.read()).substitute(subst))
 
