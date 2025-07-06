@@ -177,3 +177,14 @@
   date: 2025-07-05
   marks: null
   version_git_calls: 3
+- repo: cases
+  dirty: false
+  branch: shadow
+  tag: '1.2'
+  count: 3
+  node: g09de2f3
+  commit: 09de2f3fab466f1a465c43dc0b6490ca4ae34081
+  version: '1.3.dev3+%(node)s'
+  date: 2025-07-06
+  marks: null
+  version_git_calls: 4
